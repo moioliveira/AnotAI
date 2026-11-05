@@ -1,0 +1,32 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "Janela principal: configurações, histórico e preferências.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "log:default",
+    "store:default",
+    "autostart:default",
+    "notification:default",
+    "allow-app-info",
+    "allow-get-settings",
+    "allow-save-settings",
+    "allow-set-mode",
+    "allow-api-key-status",
+    "allow-set-api-key",
+    "allow-history-list",
+    "allow-history-delete",
+    "allow-delete-all-data",
+    "allow-export-data",
+    "allow-dictionary-list",
+    "allow-dictionary-add",
+    "allow-dictionary-remove",
+    "allow-stats",
+    "allow-models-status",
+    "allow-model-download",
+    "allow-model-delete",
+    "allow-mic-test",
+    "allow-set-cloud-consent"
+  ]
+}

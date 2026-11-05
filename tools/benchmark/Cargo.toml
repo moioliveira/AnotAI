@@ -1,0 +1,15 @@
+[package]
+name = "anotai-benchmark"
+description = "Benchmark de STT: WER e latência por provedor (Sprint 0, ADR-003)."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+anotai-audio.workspace = true
+anotai-stt.workspace = true
+tokio.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,14 @@
+[env]
+# whisper.cpp (ggml): com MSVC, GGML_NATIVE não detecta as instruções da CPU
+# e o ggml compila sem AVX2. Fixamos AVX2/FMA/F16C, que todo processador
+# suportado pelo Windows 11 tem.
+GGML_NATIVE = "OFF"
+GGML_AVX = "ON"
+GGML_AVX2 = "ON"
+GGML_FMA = "ON"
+GGML_F16C = "ON"
+# O crate `cmake` troca as flags de Release do CMake pelas do crate `cc`, que
+# no MSVC não trazem otimização, e ainda filtra /O de CFLAGS: o whisper.cpp
+# saía compilado sem otimização (tiny: 10,6 s → 1,1 s com /O2). `CL` é lida pelo próprio
+# cl.exe; flags explícitas na linha de comando (ex.: /Od em debug) vencem.
+CL = "/O2"

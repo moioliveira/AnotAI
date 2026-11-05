@@ -1,0 +1,18 @@
+[package]
+name = "anotai-vad"
+description = "Detecção de voz (Silero VAD via whisper.cpp) e segmentação do modo contínuo."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+tracing.workspace = true
+whisper-rs = "0.16.0"
+
+[dev-dependencies]
+anotai-audio.workspace = true
+
+[lints]
+workspace = true

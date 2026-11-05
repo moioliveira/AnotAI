@@ -1,0 +1,26 @@
+[package]
+name = "anotai-core"
+description = "Orquestra o pipeline hotkey → áudio → VAD → STT → pós-processamento → inserção."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+anotai-hotkey.workspace = true
+anotai-audio.workspace = true
+anotai-vad.workspace = true
+anotai-stt.workspace = true
+anotai-postproc.workspace = true
+anotai-inject.workspace = true
+anotai-store.workspace = true
+anotai-platform.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true

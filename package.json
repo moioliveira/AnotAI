@@ -1,0 +1,22 @@
+{
+  "name": "anotai",
+  "private": true,
+  "packageManager": "pnpm@12.16.1",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @anotai/desktop tauri dev",
+    "build": "turbo run build",
+    "build:app": "pnpm --filter @anotai/desktop tauri build",
+    "test": "turbo run test && cargo test --workspace",
+    "typecheck": "turbo run typecheck",
+    "lint": "biome check . && cargo clippy --workspace --all-targets -- -D warnings",
+    "format": "biome format --write . && cargo fmt --all"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.4",
+    "lefthook": "^2.2.2",
+    "turbo": "^2.11.10"
+  }
+}

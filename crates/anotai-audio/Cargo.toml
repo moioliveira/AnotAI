@@ -1,0 +1,16 @@
+[package]
+name = "anotai-audio"
+description = "Captura de áudio, reamostragem para 16 kHz mono, buffer circular e nível do microfone (cpal, rubato)."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+cpal = "0.18.2"
+rubato = "5.0.1"
+thiserror.workspace = true
+tracing.workspace = true
+
+[lints]
+workspace = true

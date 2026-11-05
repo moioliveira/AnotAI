@@ -1,0 +1,25 @@
+[package]
+name = "anotai-stt"
+description = "Trait SttProvider e adaptadores de transcrição na nuvem e local (whisper-rs)."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+reqwest.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+anotai-audio.workspace = true
+tokio = { workspace = true, features = ["sync"] }
+thiserror.workspace = true
+tracing.workspace = true
+whisper-rs = { version = "0.16.0", features = ["tracing_backend"] }
+
+[dev-dependencies]
+whisper-rs = "0.16.0"
+tokio.workspace = true
+mockito.workspace = true
+
+[lints]
+workspace = true

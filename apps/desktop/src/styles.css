@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@import "@anotai/design-tokens/tokens.css";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/sora";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* Componentes de @anotai/ui ficam fora deste app: o Tailwind precisa varrê-los. */
+@source "../../../packages/ui/src";
+
+@theme {
+  --font-display: "Sora Variable", "Sora", system-ui, sans-serif;
+  --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body {
+  @apply bg-background text-foreground font-sans antialiased;
+}
+
+/* A janela de overlay é transparente: só a pílula aparece. */
+body.overlay {
+  background: transparent;
+}

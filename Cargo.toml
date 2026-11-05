@@ -1,0 +1,42 @@
+[workspace]
+resolver = "3"
+members = ["crates/*", "apps/desktop/src-tauri", "tools/benchmark"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "UNLICENSED"
+publish = false
+
+[workspace.dependencies]
+anotai-core = { path = "crates/anotai-core" }
+anotai-hotkey = { path = "crates/anotai-hotkey" }
+anotai-audio = { path = "crates/anotai-audio" }
+anotai-vad = { path = "crates/anotai-vad" }
+anotai-stt = { path = "crates/anotai-stt" }
+anotai-postproc = { path = "crates/anotai-postproc" }
+anotai-inject = { path = "crates/anotai-inject" }
+anotai-store = { path = "crates/anotai-store" }
+anotai-platform = { path = "crates/anotai-platform" }
+
+thiserror = "2"
+tracing = "0.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+reqwest = { version = "0.13", default-features = false, features = ["json", "multipart", "native-tls", "query"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
+mockito = "1"
+
+[workspace.lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+
+[workspace.lints.clippy]
+unwrap_used = "deny"
+expect_used = "warn"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

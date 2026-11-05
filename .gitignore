@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.turbo/
+target/
+*.log
+.env.local
+.env.*.local
+apps/desktop/src-tauri/gen/schemas/
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+
+# Benchmark: áudio de pessoas é dado pessoal (LGPD)
+tools/benchmark/dataset/
+tools/benchmark/dataset-sintetico/
+*.tsbuildinfo

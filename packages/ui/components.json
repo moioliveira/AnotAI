@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "../design-tokens/src/tokens.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@anotai/ui/components",
+    "ui": "@anotai/ui/components",
+    "utils": "@anotai/ui/lib/utils",
+    "lib": "@anotai/ui/lib",
+    "hooks": "@anotai/ui/hooks"
+  }
+}
