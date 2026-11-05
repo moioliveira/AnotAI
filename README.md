@@ -84,3 +84,7 @@ O que acontece com cada fala: motor de transcrição (nuvem, local ou automátic
 - **Aceleração por GPU** do motor local (Vulkan) e o modelo large-v3-turbo.
 - **Atualizador automático e assinatura de código**: dependem de decisões (repositório de releases, chave do updater, certificado/Azure Trusted Signing).
 - **Benchmark com dataset real** (vozes do time) para escolher o provedor padrão; tauri-specta.
+
+## Licença
+
+[MIT](LICENSE). Componentes de terceiros incluídos no instalador mantêm as próprias licenças, todas compatíveis: whisper.cpp (MIT), modelo Silero VAD (MIT), Tauri (MIT/Apache-2.0). Os modelos Whisper baixados pelo app são da OpenAI (MIT).
