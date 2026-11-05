@@ -53,7 +53,8 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - uses: android-actions/setup-android@v3
+      # O runner ubuntu-latest já traz o Android SDK com as licenças aceitas;
+      # o AGP baixa a plataforma que faltar.
 
       - uses: gradle/actions/setup-gradle@v4
 
