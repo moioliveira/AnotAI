@@ -40,6 +40,8 @@ pub struct SileroVad {
 
 impl SileroVad {
     pub fn load(model: &Path) -> Result<Self> {
+        // Logs do whisper.cpp vão para o `tracing` em vez do stderr.
+        whisper_rs::install_logging_hooks();
         let path = model
             .to_str()
             .ok_or_else(|| Error::Load("caminho inválido".into()))?;

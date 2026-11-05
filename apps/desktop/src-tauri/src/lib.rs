@@ -65,6 +65,13 @@ pub fn run() {
             engine::init(handle);
             tray::create(handle, cfg.mode)?;
             hotkey::init(handle);
+            // Janelas por último: o Tauri cria as do tauri.conf.json antes do
+            // setup, e a UI embutida (release) chama comandos na hora, antes
+            // de o estado existir. Por isso elas têm `create: false` e nascem
+            // aqui, com tudo registrado.
+            for window in app.config().app.windows.clone() {
+                tauri::WebviewWindowBuilder::from_config(handle, &window)?.build()?;
+            }
             Ok(())
         })
         .on_window_event(|window, event| {

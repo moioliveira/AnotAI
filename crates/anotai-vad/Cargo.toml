@@ -9,7 +9,7 @@ publish.workspace = true
 [dependencies]
 thiserror.workspace = true
 tracing.workspace = true
-whisper-rs = "0.16.0"
+whisper-rs = { version = "0.16.0", features = ["tracing_backend"] }
 
 [dev-dependencies]
 anotai-audio.workspace = true

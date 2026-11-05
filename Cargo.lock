@@ -99,7 +99,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-audio"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "cpal",
  "rubato",
@@ -109,7 +109,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-benchmark"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anotai-audio",
  "anotai-stt",
@@ -118,7 +118,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anotai-audio",
  "anotai-hotkey",
@@ -136,7 +136,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-desktop"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anotai-audio",
  "anotai-core",
@@ -165,7 +165,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-hotkey"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "thiserror 2.0.21",
@@ -175,7 +175,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-inject"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "arboard",
  "serde",
@@ -186,7 +186,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-platform"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "thiserror 2.0.21",
@@ -196,7 +196,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-postproc"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "mockito",
  "regex",
@@ -210,7 +210,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-store"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -223,7 +223,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-stt"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anotai-audio",
  "mockito",
@@ -238,7 +238,7 @@ dependencies = [
 
 [[package]]
 name = "anotai-vad"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anotai-audio",
  "thiserror 2.0.21",
