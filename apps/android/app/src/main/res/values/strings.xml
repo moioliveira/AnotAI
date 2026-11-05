@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnotAI</string>
+    <string name="tile_label">AnotAI</string>
+    <string name="shortcut_listen_short">Falar</string>
+    <string name="shortcut_listen_long">Falar com o AnotAI</string>
+</resources>

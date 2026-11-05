@@ -1,6 +1,6 @@
 # AnotAI
 
-Ditado por voz para Windows (depois Linux e Android). Segure **Ctrl + Win** para falar; toque duas vezes para o modo contínuo. O texto entra no cursor já corrigido (norma culta), com módulo de tradução EN→PT.
+Ditado por voz para Windows e assistente de voz para Android (depois Linux). Segure **Ctrl + Win** para falar; toque duas vezes para o modo contínuo. O texto entra no cursor já corrigido (norma culta), com módulo de tradução EN→PT.
 
 - PRD, Tech Spec e guia do time: https://claude.ai/artifact/Mj8mNM5pZPEGo5eHkYzpBE (cópia em PDF em `doc/`)
 - Identidade visual e mockups: https://claude.ai/artifact/JL6UCmBYVtpBVnixDajMAf
@@ -28,7 +28,7 @@ pnpm build:app        # instalador NSIS/MSI em target/release/bundle
 
 ```
 apps/desktop/          Tauri 2: src/ (React 19 + Tailwind v4) e src-tauri/ (janelas, bandeja, plugins)
-apps/mobile/           v2: Tauri Android + IME em Kotlin
+apps/android/          assistente de voz para Android (Kotlin + Compose) — ver apps/android/README.md
 packages/ui/           componentes estilo shadcn/ui com a identidade AnotAI
 packages/design-tokens/ paleta, fontes e raios (CSS @theme + TS)
 packages/i18n/         textos pt-BR
