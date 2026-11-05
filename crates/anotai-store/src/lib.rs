@@ -179,7 +179,7 @@ impl Store {
         Ok(sqlx::query_as(concat!(
             "SELECT ",
             columns!(),
-            " FROM transcription ORDER BY created_at DESC LIMIT ?"
+            " FROM transcription ORDER BY created_at DESC, id DESC LIMIT ?"
         ))
         .bind(limit)
         .fetch_all(&self.pool)
@@ -196,7 +196,7 @@ impl Store {
             columns!(),
             " FROM transcription WHERE rowid IN \
              (SELECT rowid FROM transcription_fts WHERE transcription_fts MATCH ?) \
-             ORDER BY created_at DESC LIMIT ?"
+             ORDER BY created_at DESC, id DESC LIMIT ?"
         ))
         .bind(query)
         .bind(limit)
@@ -246,7 +246,7 @@ impl Store {
         let history: Vec<Transcription> = sqlx::query_as(concat!(
             "SELECT ",
             columns!(),
-            " FROM transcription ORDER BY created_at"
+            " FROM transcription ORDER BY created_at, id"
         ))
         .fetch_all(&self.pool)
         .await?;
@@ -352,6 +352,29 @@ mod tests {
         assert_eq!(hits[0].final_text, "Relatório de vendas pronto.");
         // Operadores FTS digitados pelo usuário não quebram a consulta.
         assert!(store.search("AND OR \"(", 10).await.is_ok());
+        Ok(())
+    }
+
+    /// Dois ditados no mesmo milissegundo (máquina rápida, modo contínuo)
+    /// ainda saem na ordem em que foram gravados.
+    #[tokio::test]
+    async fn same_millisecond_keeps_insertion_order() -> Result<()> {
+        let store = Store::open_in_memory().await?;
+        for text in ["primeiro", "segundo", "terceiro"] {
+            store.add_transcription(&sample(text)).await?;
+        }
+        sqlx::query("UPDATE transcription SET created_at = 1000")
+            .execute(&store.pool)
+            .await?;
+        let order: Vec<String> = store
+            .recent(10)
+            .await?
+            .into_iter()
+            .map(|t| t.final_text)
+            .collect();
+        assert_eq!(order, ["terceiro", "segundo", "primeiro"]);
+        let export = store.export_json().await?;
+        assert_eq!(export["transcriptions"][0]["finalText"], "primeiro");
         Ok(())
     }
 
