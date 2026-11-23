@@ -44,7 +44,7 @@ pub fn create(app: &AppHandle, mode: Mode) -> tauri::Result<()> {
 
     TrayIconBuilder::with_id(TRAY_ID)
         .icon(Image::from_bytes(ICON_IDLE)?)
-        .tooltip("AnotAI — segure Ctrl + Win para falar")
+        .tooltip("AnotAI — segure Alt + Win para falar")
         .menu(&menu)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| match event.id.as_ref() {

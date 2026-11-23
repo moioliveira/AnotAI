@@ -100,7 +100,7 @@ export function History() {
 
       {items.length === 0 ? (
         <p className="py-10 text-center text-muted-foreground text-sm">
-          {query ? "Nada encontrado." : "Nenhum ditado ainda. Segure Ctrl + Win e fale."}
+          {query ? "Nada encontrado." : "Nenhum ditado ainda. Segure Alt + Win e fale."}
         </p>
       ) : (
         <ul className="flex flex-col gap-3">

@@ -1,10 +1,10 @@
-//! Máquina de estados do gesto Ctrl + Win (seção 5.3 do Tech Spec).
+//! Máquina de estados do gesto Alt + Win (seção 5.3 do Tech Spec).
 //!
 //! - Segurar por mais de `hold_threshold_ms` → push-to-talk até soltar.
 //! - Dois toques curtos, com a segunda pressão até `double_tap_ms` depois de
 //!   soltar a primeira → liga o modo contínuo; um novo toque desliga.
-//! - Outra tecla junto com Ctrl + Win → cancela e deixa o atalho do Windows
-//!   passar (ex.: Ctrl + Win + ← para trocar de área de trabalho).
+//! - Outra tecla junto com Alt + Win → cancela e deixa o atalho do Windows
+//!   passar (ex.: Win + Alt + R para gravar a tela).
 //!
 //! O tempo entra como milissegundos monotônicos (`u64`) para a máquina ser
 //! determinística nos testes. Quem chama deve enviar [`Input::Tick`]
@@ -33,11 +33,11 @@ impl Default for GestureConfig {
 /// Eventos vindos do hook de teclado, com o instante em ms.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Input {
-    /// Ctrl e Win ficaram pressionados juntos.
+    /// Alt e Win ficaram pressionados juntos.
     ComboDown(u64),
-    /// Ctrl ou Win foi solto.
+    /// Alt ou Win foi solto.
     ComboUp(u64),
-    /// Outra tecla foi pressionada enquanto Ctrl + Win estavam pressionados.
+    /// Outra tecla foi pressionada enquanto Alt + Win estavam pressionados.
     OtherKey(u64),
     /// Passagem do tempo, sem tecla.
     Tick(u64),

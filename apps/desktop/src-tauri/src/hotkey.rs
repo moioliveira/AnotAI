@@ -1,4 +1,4 @@
-//! Liga os atalhos globais (Ctrl + Win e o alternativo) ao microfone e ao
+//! Liga os atalhos globais (Alt + Win e o alternativo) ao microfone e ao
 //! pipeline de ditado.
 
 use std::sync::{Arc, Mutex};
@@ -37,7 +37,7 @@ pub struct HotkeyState {
 #[derive(Debug, Clone, Default, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct HotkeyStatus {
-    pub ctrl_win_error: Option<String>,
+    pub combo_error: Option<String>,
     pub alternate: Option<String>,
     pub alternate_error: Option<String>,
 }
@@ -94,7 +94,7 @@ pub fn start_listener(app: &AppHandle) {
                 alternate_error,
             } = listener.status().clone();
             log_status(&hook_error, &alternate_error, alternate);
-            status.ctrl_win_error = hook_error;
+            status.combo_error = hook_error;
             status.alternate_error = alternate_error;
             if let Ok(mut slot) = state.listener.lock() {
                 *slot = Some(listener);
@@ -102,7 +102,7 @@ pub fn start_listener(app: &AppHandle) {
         }
         Err(err) => {
             log::error!("{err}");
-            status.ctrl_win_error = Some(err.to_string());
+            status.combo_error = Some(err.to_string());
             ui::notify(app, "Atalho indisponível", &err.to_string());
         }
     }
@@ -113,8 +113,8 @@ pub fn start_listener(app: &AppHandle) {
 
 fn log_status(hook: &Option<String>, alternate: &Option<String>, sc: Option<Shortcut>) {
     match hook {
-        None => log::info!("atalho Ctrl + Win ativo"),
-        Some(err) => log::warn!("Ctrl + Win indisponível: {err}"),
+        None => log::info!("atalho Alt + Win ativo"),
+        Some(err) => log::warn!("Alt + Win indisponível: {err}"),
     }
     match (alternate, sc) {
         (None, Some(sc)) => log::info!("atalho alternativo {sc} ativo"),

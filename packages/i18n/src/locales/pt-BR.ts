@@ -15,7 +15,7 @@ export const ptBR = {
     translation: "Tradução EN→PT",
   },
   hint: {
-    hold: "Segure Ctrl + Win para falar",
+    hold: "Segure Alt + Win para falar",
     doubleTap: "Toque duas vezes para o modo contínuo",
   },
   tray: {

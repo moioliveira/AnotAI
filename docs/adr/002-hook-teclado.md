@@ -10,6 +10,10 @@
 
 Hook de baixo nível `SetWindowsHookExW(WH_KEYBOARD_LL)` numa thread dedicada com loop de mensagens. Antes do key-up da Win, injetar a tecla neutra VK 0xE8 (técnica do AutoHotkey) para não abrir o Iniciar. O callback responde em < 1 ms e só envia eventos por canal; a lógica de segurar/toque duplo fica na máquina de estados pura `anotai_hotkey::gesture` (testada sem SO).
 
+## Atualização (2026-11-23): Alt + Win
+
+O atalho principal passou de Ctrl + Win para **Alt + Win**. Soltar o Alt sozinho ativa a barra de menus do app em foco (e o texto colado em seguida se perderia), então o key-up do Alt que participou do atalho recebe a mesma tecla-máscara da Win.
+
 ## Alternativas
 
 - `RegisterHotKey` com outro atalho: perde o gesto de produto.
@@ -17,7 +21,7 @@ Hook de baixo nível `SetWindowsHookExW(WH_KEYBOARD_LL)` numa thread dedicada co
 
 ## Consequências
 
-- Antivírus podem tratar o hook como keylogger: só Ctrl, Win e teclas pressionadas junto com eles são observadas; nada é registrado. Precisa constar na política de privacidade e ser auditado em code review.
+- Antivírus podem tratar o hook como keylogger: só Alt, Win e teclas pressionadas junto com eles são observadas; nada é registrado. Precisa constar na política de privacidade e ser auditado em code review.
 - Apps elevados (UIPI) ficam fora de alcance; mostrar aviso.
-- Atalho alternativo configurável (padrão Ctrl + Alt + Espaço) via `RegisterHotKey`, que não depende do hook: serve a teclados sem Win e a ambientes que bloqueiam hooks. Como `WM_HOTKEY` só avisa o key-down, o key-up é detectado consultando a tecla a cada 10 ms. Se outro programa já usa o atalho, o registro falha e só o Ctrl + Win fica ativo (aviso no log).
+- Atalho alternativo configurável (padrão Ctrl + Alt + Espaço) via `RegisterHotKey`, que não depende do hook: serve a teclados sem Win e a ambientes que bloqueiam hooks. Como `WM_HOTKEY` só avisa o key-down, o key-up é detectado consultando a tecla a cada 10 ms. Se outro programa já usa o atalho, o registro falha e só o Alt + Win fica ativo (aviso no log).
 - Antes de ditar, o app confere se o app em primeiro plano roda como administrador e avisa por notificação.

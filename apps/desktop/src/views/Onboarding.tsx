@@ -101,7 +101,7 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
           <img src="/anotai-simbolo.svg" alt="" className="size-14" />
           <h1 className="font-display font-semibold text-3xl">Bem-vindo ao AnotAI</h1>
           <p className="text-muted-foreground">
-            Segure <strong>Ctrl + Win</strong> em qualquer app, fale e solte: o texto aparece no
+            Segure <strong>Alt + Win</strong> em qualquer app, fale e solte: o texto aparece no
             cursor, já pontuado e corrigido. Leva um minuto para configurar.
           </p>
         </div>
@@ -213,7 +213,7 @@ export function Onboarding({ onDone }: { onDone: () => void }) {
           <h1 className="font-display font-semibold text-2xl">Pronto!</h1>
           <ul className="flex list-disc flex-col gap-2 pl-5 text-sm">
             <li>
-              <strong>Segure Ctrl + Win</strong>, fale e solte: o texto entra onde está o cursor.
+              <strong>Segure Alt + Win</strong>, fale e solte: o texto entra onde está o cursor.
             </li>
             <li>
               <strong>Toque duas vezes</strong> para o modo contínuo: cada frase entra quando você

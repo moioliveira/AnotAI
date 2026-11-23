@@ -1,6 +1,6 @@
 # AnotAI
 
-Ditado por voz para Windows e assistente de voz para Android (depois Linux). Segure **Ctrl + Win** para falar; toque duas vezes para o modo contínuo. O texto entra no cursor já corrigido (norma culta), com módulo de tradução EN→PT.
+Ditado por voz para Windows e assistente de voz para Android (depois Linux). Segure **Alt + Win** para falar; toque duas vezes para o modo contínuo. O texto entra no cursor já corrigido (norma culta), com módulo de tradução EN→PT.
 
 - PRD, Tech Spec e guia do time: https://claude.ai/artifact/Mj8mNM5pZPEGo5eHkYzpBE (cópia em PDF em `doc/`)
 - Identidade visual e mockups: https://claude.ai/artifact/JL6UCmBYVtpBVnixDajMAf
@@ -33,7 +33,7 @@ packages/ui/           componentes estilo shadcn/ui com a identidade AnotAI
 packages/design-tokens/ paleta, fontes e raios (CSS @theme + TS)
 packages/i18n/         textos pt-BR
 crates/anotai-core/    orquestra o pipeline; eventos para a UI
-crates/anotai-hotkey/  hook WH_KEYBOARD_LL + tecla-máscara + máquina de estados Ctrl + Win (com testes)
+crates/anotai-hotkey/  hook WH_KEYBOARD_LL + tecla-máscara + máquina de estados Alt + Win (com testes)
 crates/anotai-audio/   microfone (cpal) → mono → 16 kHz (rubato), nível para o overlay
 crates/anotai-platform/ app em primeiro plano e detecção de app elevado (UIPI)
 crates/anotai-stt/     transcrição: OpenAI gpt-4o-transcribe, Groq Whisper, Deepgram Nova-3 e whisper.cpp local
@@ -60,7 +60,7 @@ Conventional Commits (validado no `commit-msg`), TypeScript strict sem `any`, `c
 Depois, teste do microfone e um resumo dos gestos. Sem consentimento, nenhum áudio ou texto vai para a nuvem; dá para revogar em **Configurações → Privacidade**.
 
 Uso:
-- **Segure Ctrl + Win**, fale e solte: o texto aparece no cursor.
+- **Segure Alt + Win**, fale e solte: o texto aparece no cursor.
 - **Toque duas vezes** para o modo contínuo: cada frase é inserida quando você faz uma pausa (~1,2 s); um toque encerra.
 - A bandeja (ou a tela Início) alterna entre ditado e **tradução EN→PT**.
 

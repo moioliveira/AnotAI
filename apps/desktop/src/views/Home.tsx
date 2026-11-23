@@ -52,8 +52,7 @@ export function Home({ onOpenSettings }: { onOpenSettings: () => void }) {
   };
 
   const warnings: string[] = settings && keys ? setupGaps(settings, keys, models) : [];
-  if (info?.hotkey.ctrlWinError)
-    warnings.push(`Ctrl + Win indisponível: ${info.hotkey.ctrlWinError}`);
+  if (info?.hotkey.comboError) warnings.push(`Alt + Win indisponível: ${info.hotkey.comboError}`);
   if (info?.hotkey.alternateError) warnings.push(info.hotkey.alternateError);
 
   const listening = state === "listening";

@@ -200,7 +200,7 @@ export function SettingsView() {
             info?.hotkey.alternateError ? (
               <span className="text-recording">{info.hotkey.alternateError}</span>
             ) : (
-              "Funciona junto com Ctrl + Win. Ex.: Ctrl+Alt+Space, Ctrl+Shift+D. Vazio desliga."
+              "Funciona junto com Alt + Win. Ex.: Ctrl+Alt+Space, Ctrl+Shift+D. Vazio desliga."
             )
           }
         >

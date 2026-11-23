@@ -1,9 +1,10 @@
-//! Camada Win32: hook `WH_KEYBOARD_LL` (Ctrl + Win) e `RegisterHotKey`
+//! Camada Win32: hook `WH_KEYBOARD_LL` (Alt + Win) e `RegisterHotKey`
 //! (atalho alternativo). Cada um roda numa thread com loop de mensagens.
 //!
 //! O callback do hook roda na thread que o instalou e precisa responder em
 //! < 1 ms (o Windows remove hooks lentos): ele só atualiza o [`KeyTracker`],
-//! envia o [`Input`] por canal e, quando preciso, mascara o key-up da Win.
+//! envia o [`Input`] por canal e, quando preciso, mascara o key-up da Win
+//! ou do Alt.
 
 use std::cell::RefCell;
 use std::sync::mpsc::{Sender, SyncSender, sync_channel};
@@ -26,7 +27,7 @@ use windows::Win32::UI::WindowsAndMessaging::{
 use windows::core::PCWSTR;
 
 use crate::gesture::Input;
-use crate::keys::{KeyTracker, VK_MASK};
+use crate::keys::{KeyTracker, VK_LMENU, VK_MASK, VK_MENU};
 use crate::shortcut::Shortcut;
 use crate::{Error, Result, now_ms};
 
@@ -119,7 +120,7 @@ where
 }
 
 // ---------------------------------------------------------------------------
-// Hook WH_KEYBOARD_LL (Ctrl + Win)
+// Hook WH_KEYBOARD_LL (Alt + Win)
 // ---------------------------------------------------------------------------
 
 struct HookCtx {
@@ -147,7 +148,7 @@ impl Drop for InstalledHook {
     }
 }
 
-/// Instala o hook Ctrl + Win numa thread própria.
+/// Instala o hook Alt + Win numa thread própria.
 pub(crate) fn spawn_hook(tx: Sender<Input>, accept_injected: bool) -> Result<MsgThread> {
     MsgThread::spawn("anotai-hotkey-hook", move || {
         CTX.with_borrow_mut(|ctx| {
@@ -216,15 +217,15 @@ fn handle_key(kb: &KBDLLHOOKSTRUCT, msg: u32) -> bool {
 
     // SendInput fora do borrow do contexto.
     match outcome {
-        Some(o) if o.mask_win_up => mask_win_up(kb.vkCode as u16),
+        Some(o) if o.mask_up => mask_key_up(kb.vkCode as u16),
         _ => false,
     }
 }
 
-/// Injeta máscara (down/up) + key-up da Win, para o Windows não abrir o
-/// Iniciar. Só bloqueia o key-up original se a injeção inteira deu certo;
-/// senão a Win ficaria presa.
-fn mask_win_up(win_vk: u16) -> bool {
+/// Injeta máscara (down/up) + key-up da Win ou do Alt, para o Windows não
+/// abrir o Iniciar nem o app ativar a barra de menus. Só bloqueia o key-up
+/// original se a injeção inteira deu certo; senão a tecla ficaria presa.
+fn mask_key_up(vk: u16) -> bool {
     let key = |vk: u16, flags: KEYBD_EVENT_FLAGS| INPUT {
         r#type: INPUT_KEYBOARD,
         Anonymous: INPUT_0 {
@@ -237,10 +238,16 @@ fn mask_win_up(win_vk: u16) -> bool {
             },
         },
     };
+    // Win e o Alt da direita são teclas estendidas; o Alt da esquerda não.
+    let up_flags = if u32::from(vk) == VK_LMENU || u32::from(vk) == VK_MENU {
+        KEYEVENTF_KEYUP
+    } else {
+        KEYEVENTF_KEYUP | KEYEVENTF_EXTENDEDKEY
+    };
     let inputs = [
         key(VK_MASK, KEYBD_EVENT_FLAGS(0)),
         key(VK_MASK, KEYEVENTF_KEYUP),
-        key(win_vk, KEYEVENTF_KEYUP | KEYEVENTF_EXTENDEDKEY),
+        key(vk, up_flags),
     ];
     // SAFETY: `inputs` é um array válido de INPUT do tamanho informado.
     let sent = unsafe { SendInput(&inputs, std::mem::size_of::<INPUT>() as i32) };

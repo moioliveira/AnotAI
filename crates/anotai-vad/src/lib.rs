@@ -17,6 +17,10 @@ const fn ms(n: usize) -> usize {
     n * SAMPLE_RATE / 1000
 }
 
+/// Áudio mantido ao descartar silêncio. O VAD só marca fala depois de
+/// ~200 ms dela; guardar menos que isso cortava o começo da primeira palavra.
+const KEEP_AFTER_SILENCE: usize = ms(600);
+
 /// Erros deste módulo.
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
@@ -137,7 +141,7 @@ impl Segmenter {
             // Só silêncio: descarta, mantendo um pouco para não cortar o
             // início da próxima palavra.
             if self.pending.len() > c.max_leading_silence {
-                let cut = self.pending.len() - c.pad;
+                let cut = self.pending.len() - KEEP_AFTER_SILENCE;
                 self.pending.drain(..cut);
             }
             return Ok(None);
@@ -240,7 +244,7 @@ mod tests {
         let mut seg = Segmenter::default();
         seg.push(&silence(5_000));
         assert!(seg.poll(&mut Threshold)?.is_none());
-        assert_eq!(seg.pending_len(), ms(200));
+        assert_eq!(seg.pending_len(), KEEP_AFTER_SILENCE);
         Ok(())
     }
 

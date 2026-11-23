@@ -1,7 +1,7 @@
 //! Detecção do atalho de ditado.
 //!
 //! - [`gesture`]: máquina de estados pura (segurar / toque duplo);
-//! - [`keys`]: rastreia Ctrl/Win e decide quando mascarar a Win (puro);
+//! - [`keys`]: rastreia Alt/Win e decide quando mascarar Win/Alt (puro);
 //! - [`shortcut`]: atalho alternativo configurável (ex.: Ctrl + Alt + Espaço);
 //! - `windows`: hook `WH_KEYBOARD_LL` e `RegisterHotKey`, cada um numa thread;
 //! - [`HotkeyListener`]: junta tudo e chama um callback com cada [`Action`].
@@ -69,7 +69,7 @@ impl Default for ListenerOptions {
 /// O que ficou ativo. Pelo menos um dos dois funciona quando `start` dá certo.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
 pub struct ListenerStatus {
-    /// Erro do hook Ctrl + Win, se não instalou.
+    /// Erro do hook Alt + Win, se não instalou.
     pub hook_error: Option<String>,
     /// Erro do atalho alternativo, se configurado e não registrou.
     pub alternate_error: Option<String>,

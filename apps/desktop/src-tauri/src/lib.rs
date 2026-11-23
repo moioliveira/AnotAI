@@ -26,6 +26,11 @@ pub fn run() {
         .plugin(
             tauri_plugin_log::Builder::new()
                 .level(log::LevelFilter::Info)
+                // O whisper.cpp loga cada passada do VAD (várias por segundo
+                // no modo contínuo) e empurrava o resto do log para fora.
+                .level_for("whisper_rs", log::LevelFilter::Warn)
+                .max_file_size(2_000_000)
+                .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepSome(3))
                 .build(),
         )
         .plugin(tauri_plugin_autostart::init(

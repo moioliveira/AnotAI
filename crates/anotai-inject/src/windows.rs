@@ -19,7 +19,10 @@ use crate::{Error, Inserted, Result, Target};
 
 /// Mesmo marcador do hook (`anotai-hotkey`): ele ignora o que injetamos.
 const ANOTAI_EXTRA_INFO: usize = 0x414E_4F54;
-const CLIPBOARD_RESTORE_DELAY: Duration = Duration::from_millis(300);
+/// Tempo para o app de destino ler a área de transferência depois do Ctrl+V.
+/// Apps Electron/Chromium ocupados levam mais de 300 ms: restaurar antes faz
+/// colar o conteúdo antigo (ou nada).
+const CLIPBOARD_RESTORE_DELAY: Duration = Duration::from_millis(900);
 const MODIFIER_RELEASE_WAIT: Duration = Duration::from_secs(1);
 const UIA_TIMEOUT: Duration = Duration::from_millis(300);
 
@@ -179,11 +182,13 @@ fn paste_text(text: &str) -> Result<()> {
     let result = send(&paste);
 
     std::thread::sleep(CLIPBOARD_RESTORE_DELAY);
-    let restored = match previous {
-        Some(prev) => clipboard.set_text(prev),
-        None => clipboard.clear(),
-    };
-    if let Err(e) = restored {
+    // Só restaura se ninguém trocou o conteúdo nesse meio-tempo. Sem texto
+    // anterior (ex.: imagem), deixa o ditado: limpar não traria a imagem de
+    // volta e ainda poderia esvaziar uma colagem atrasada.
+    let still_ours = clipboard.get_text().ok().as_deref() == Some(text);
+    if let (Some(prev), true) = (previous, still_ours)
+        && let Err(e) = clipboard.set_text(prev)
+    {
         tracing::warn!("não foi possível restaurar a área de transferência: {e}");
     }
     result

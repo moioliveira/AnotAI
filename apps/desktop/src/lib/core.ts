@@ -54,7 +54,7 @@ export interface ModelProgress {
 }
 
 export interface HotkeyStatus {
-  ctrlWinError: string | null;
+  comboError: string | null;
   alternate: string | null;
   alternateError: string | null;
 }

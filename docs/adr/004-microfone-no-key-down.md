@@ -8,7 +8,7 @@ O Tech Spec (5.2) pede um pré-buffer de 300 ms para não perder a primeira síl
 
 ## Decisão
 
-A máquina de gestos emite `Arm` no instante em que Ctrl + Win (ou o atalho alternativo) é pressionado e `Disarm` quando o gesto vira um toque isolado ou um atalho do Windows (ex.: Ctrl + Win + ←). O `anotai-audio` abre o microfone no `Arm` e descarta o áudio no `Disarm`. Assim, o áudio desde o key-down é preservado sem microfone ligado em repouso.
+A máquina de gestos emite `Arm` no instante em que Alt + Win (ou o atalho alternativo) é pressionado e `Disarm` quando o gesto vira um toque isolado ou um atalho do Windows (ex.: Win + Alt + R). O `anotai-audio` abre o microfone no `Arm` e descarta o áudio no `Disarm`. Assim, o áudio desde o key-down é preservado sem microfone ligado em repouso.
 
 ## Alternativas
 
@@ -17,5 +17,5 @@ A máquina de gestos emite `Arm` no instante em que Ctrl + Win (ou o atalho alte
 
 ## Consequências
 
-- O microfone liga por instantes também quando o usuário usa Ctrl + Win + setas para trocar de área de trabalho; o áudio é descartado e nunca sai da memória.
+- O microfone liga por instantes também quando o usuário usa um atalho do Windows com Win + Alt (ex.: Win + Alt + R); o áudio é descartado e nunca sai da memória.
 - O tempo de abertura do WASAPI (dezenas de ms) ainda pode cortar o início de uma fala muito rápida. Medir na Sprint 0; se for problema, manter o dispositivo aberto por alguns segundos após o último ditado.

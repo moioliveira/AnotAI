@@ -113,8 +113,17 @@ fn run(rx: Receiver<Command>, on_level: LevelCallback) {
         match cmd {
             Command::Arm => {
                 if active.is_none() {
+                    let started = Instant::now();
                     match open(on_level.clone()) {
-                        Ok(a) => active = Some(a),
+                        Ok(a) => {
+                            // Microfone lento para abrir (ex.: Bluetooth) corta o
+                            // começo da fala: deixar visível no log.
+                            tracing::info!(
+                                "microfone pronto em {} ms",
+                                started.elapsed().as_millis()
+                            );
+                            active = Some(a);
+                        }
                         Err(e) => tracing::error!("não foi possível abrir o microfone: {e}"),
                     }
                 }

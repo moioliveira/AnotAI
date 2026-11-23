@@ -87,9 +87,20 @@ async fn process(
     if cfg.save_recordings || std::env::var_os("ANOTAI_SAVE_RECORDINGS").is_some() {
         save_wav(&recording);
     }
-    if duration < MIN_DURATION || peak < MIN_PEAK {
-        log::info!("gravação curta ou silenciosa: ignorada");
+    if duration < MIN_DURATION {
+        log::info!("gravação curta: ignorada");
         return Ok(());
+    }
+    if peak < MIN_PEAK {
+        log::info!("gravação silenciosa: ignorada");
+        // No push-to-talk o usuário quis ditar: avisar em vez de não fazer nada.
+        return match chunk {
+            None => Err(UserError::new(
+                "Não ouvi sua voz",
+                "O microfone não captou som. Confira o microfone padrão do Windows.",
+            )),
+            Some(_) => Ok(()),
+        };
     }
 
     // 1. Transcrição
@@ -113,8 +124,9 @@ async fn process(
         transcript.engine,
         started.elapsed().as_millis()
     );
-    if transcript.text.trim().is_empty() {
-        log::info!("transcrição vazia");
+    // O Whisper (local ou na nuvem) "inventa" frases em trechos sem fala.
+    if anotai_stt::is_hallucination(&transcript.text) {
+        log::info!("transcrição vazia ou alucinada: ignorada");
         return Ok(());
     }
     ui::emit(
@@ -126,6 +138,11 @@ async fn process(
 
     // 2. Pós-processamento
     let text = postprocess(&cfg, session.mode, &transcript.text, dictionary).await;
+    if text.trim().is_empty() {
+        // Ex.: só palavras de preenchimento ("é…", "hum"), removidas pelas regras.
+        log::info!("texto vazio após o pós-processamento: nada a inserir");
+        return Ok(());
+    }
     ui::emit(app, &CoreEvent::TranscriptFinal { text: text.clone() });
 
     // 3. Inserção
